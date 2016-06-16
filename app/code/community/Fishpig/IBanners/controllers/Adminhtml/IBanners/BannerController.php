@@ -15,7 +15,6 @@ class Fishpig_iBanners_Adminhtml_iBanners_BannerController extends Fishpig_iBann
 	 */
 	public function indexAction()
 	{
-        echo 'original FISHPIG'; exit();
 		return $this->_redirect('*/iBanners');
 	}
 
