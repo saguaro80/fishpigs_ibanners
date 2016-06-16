@@ -1,0 +1,11 @@
+{
+    "name": "fishpigs/ibanner",
+    "type": "magento-module",
+    "license":"OSL-3.0",
+    "description":"Magento extension for Fishpigs.",
+    "authors":[
+        {
+            "name":"Fishpigs"
+        }
+    ]
+}
