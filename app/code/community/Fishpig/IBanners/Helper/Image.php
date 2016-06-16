@@ -80,6 +80,22 @@ class Fishpig_iBanners_Helper_Image extends Mage_Core_Helper_Abstract
 		return null;
 	}
 	
+        /**
+	 * Retrieve the full image mobile URL
+	 * Null returned if image does not exist
+	 *
+	 * @param string $image
+	 * @return string|null
+	 */
+	public function getImageMobileUrl($image)
+	{
+		if ($this->imageExists($image)) {
+			return $this->getBaseImageUrl() . $image;
+		}
+		
+		return null;
+	}
+        
 	/**
 	 * Retrieve the full image path
 	 * Null returned if image does not exist

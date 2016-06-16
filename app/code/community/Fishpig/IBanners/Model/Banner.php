@@ -62,6 +62,20 @@ class Fishpig_iBanners_Model_Banner extends Mage_Core_Model_Abstract
 		return $this->getData('image_url');
 	}
 
+        /**
+	 * Retrieve the image mobile URL
+	 *
+	 * @return string
+	 */
+	public function getImageMobileUrl()
+	{
+		if (!$this->hasImageMobileUrl()) {
+			$this->setImageMobileUrl(Mage::helper('ibanners/image')->getImageMobileUrl($this->getImageMobile()));
+		}
+		
+		return $this->getData('image_mobile_url');
+	}
+        
 	/**
 	 * Retrieve the URL
 	 * This converts relative URL's to absolute
