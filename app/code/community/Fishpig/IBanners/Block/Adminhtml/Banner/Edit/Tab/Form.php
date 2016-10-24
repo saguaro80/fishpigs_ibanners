@@ -61,37 +61,36 @@ class Fishpig_iBanners_Block_Adminhtml_Banner_Edit_Tab_Form extends Mage_Adminht
             'class'     => 'required-entry',
         ));
 
+        $fieldset->addField('subtitle', 'text', array(
+            'name'      => 'subtitle',
+            'label'     => $this->__('Subtitle'),
+            'title'     => $this->__('Subtitle'),
+            'required'  => false,
+        ));
+        
+        $fieldset->addField('text', 'text', array(
+            'name' => 'text',
+            'label' => $this->__('Presentation Text'),
+            'title' => $this->__('Presentation Text'),
+        ));
+        
+        $fieldset->addField('button_text', 'text', array(
+            'name'=> 'button_text',
+            'label' => $this->__('Button Label'),
+            'title' => $this->__('Button Label')
+        ));
+        
         $fieldset->addField('url', 'text', array(
             'name'      => 'url',
             'label' 	=> $this->__('URL'),
             'title' 	=> $this->__('URL')
         ));
 
-        $fieldset->addField('url_target', 'text', array(
-            'name' 	=> 'url_target',
-            'label' 	=> $this->__('URL Target'),
-            'title' 	=> $this->__('URL Target'),
-            'comment'   => $this->__('If empty, current window/tab will be used'),
-        ));
-
-        $fieldset->addField('alt_text', 'text', array(
-            'name' 	=> 'alt_text',
-            'label' 	=> $this->__('ALT Text'),
-            'title' 	=> $this->__('ALT Text'),
-        ));
-
-        $fieldset->addField('html', 'editor', array(
-            'name'      => 'html',
-            'label'     => $this->__('HTML'),
-            'title'     => $this->__('HTML'),
-            'style'     => 'height: 200px;',
-            'wysiwyg'   => $editor,
-            'config'    => Mage::getSingleton('cms/wysiwyg_config')->getConfig(array(
-                'add_widgets'               => $editor,
-                'add_variables'             => $editor,
-                'add_image'                 => $editor,
-                'files_browser_window_url'  => $this->getUrl('adminhtml/cms_wysiwyg_images/index'))
-            )
+        $fieldset->addField('category', 'select', array(
+            'name' => 'category',
+            'label' => $this->__('Category Url'),
+            'title' => $this->__('Category Url'),
+            'values' => $this->getAllCategoriesArray()
         ));
 
         $fieldset->addField('image', 'image', array(
@@ -147,5 +146,34 @@ class Fishpig_iBanners_Block_Adminhtml_Banner_Edit_Tab_Form extends Mage_Adminht
         }
 
         return $options;
+    }
+    
+    protected function getAllCategoriesArray()
+    {
+        $categoriesArray = Mage::getModel('catalog/category')
+            ->getCollection()
+            ->addAttributeToSelect('name')
+            ->addAttributeToSelect('url_path')
+            ->addAttributeToSort('path', 'asc')
+            ->addFieldToFilter('is_active', array('eq'=>'1'))
+            ->load()
+            ->toArray();
+
+        $categories = array();
+        $categories[] = array(
+            'value' => '',
+            'label' => $this->__('-- Select a Category --')
+        );
+        
+        foreach ($categoriesArray as $categoryId => $category) {
+            if (isset($category['name'])) {
+                $categories[] = array(
+                    'value' => $category['entity_id'],
+                    'label' => $category['name']
+                );
+            }
+        }
+        
+        return $categories;
     }
 }

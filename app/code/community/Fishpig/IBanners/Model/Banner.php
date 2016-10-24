@@ -36,17 +36,6 @@ class Fishpig_iBanners_Model_Banner extends Mage_Core_Model_Abstract
 	{
 		return strlen($this->getUrl()) > 1;
 	}
-	
-	/**
-	 * Retrieve the alt text
-	 * If the alt_text field is empty, use the title field
-	 *
-	 * @return string
-	 */
-	public function getAltText()
-	{
-		return $this->getData('alt_text') ? $this->getData('alt_text') : $this->getTitle();
-	}
 
 	/**
 	 * Retrieve the image URL
@@ -86,22 +75,18 @@ class Fishpig_iBanners_Model_Banner extends Mage_Core_Model_Abstract
 	{
 		if ($this->_getData('url')) {
 			if (strpos($this->_getData('url'), 'http://') === false && strpos($this->_getData('url'), 'https://') === false) {
-				$this->setUrl(Mage::getBaseUrl() . ltrim($this->_getData('url'), '/ '));
+				return $this->setUrl(Mage::getBaseUrl() . ltrim($this->_getData('url'), '/ '));
 			}
+            
+            return $this->_getData('url');
 		}
-		
-		return $this->_getData('url');
-	}
-	
-	/**
-	 * Get the HTML field, process it and return it
-	 *
-	 * @return string
-	 */
-	public function getHtml()
-	{
-		return Mage::helper('cms')->getBlockTemplateProcessor()->filter(
-			$this->_getData('html')
-		);
+		        
+        if ($this->_getData('category')) {
+            $category = Mage::getModel('catalog/category')->load($this->_getData('category'));
+            
+            return $category->getUrl();
+        }
+        
+        return '';
 	}
 }
